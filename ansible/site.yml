@@ -58,6 +58,10 @@
         state=directory
         recurse=yes
 
+    - name: Check whether the database connector already exists.
+      stat: path={{ db_connector_path }}/{{ db_connector_jar }} get_md5=no
+      register: jar_link
+
     - name: Install the database connector.
       unarchive: >
         src=../src/{{ db_connector_tarball }}
@@ -65,12 +69,14 @@
         owner={{ app_user }}
         group={{ app_user }}
         creates={{ db_connector_path }}/{{ db_connector_expanded }}
+      when: not jar_link.stat.exists
 
     - name: Create a link to the database connector .jar file.
       file: >
         src={{ db_connector_path }}/{{ db_connector_expanded }}/{{ db_connector_jar }}
         dest={{ db_connector_path }}/{{ db_connector_jar }}
         state=hard
+      when: not jar_link.stat.exists
 
     - name: Check whether the service script already exists.
       stat: path=/etc/init.d/teamcity get_md5=no
