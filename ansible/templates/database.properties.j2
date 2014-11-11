@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+connectionProperties.user={{ mysql_users.0.name }}
+connectionProperties.password={{ mysql_users.0.password }}
+connectionUrl=jdbc\:mysql\:///{{ mysql_databases.0.name }}
