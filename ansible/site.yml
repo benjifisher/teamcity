@@ -1,0 +1,89 @@
+---
+- hosts: all
+
+  vars_files:
+  - vars/main.yml
+
+  pre_tasks:
+    - name: Set the host name.
+      hostname: name={{ hostname }}
+
+    - name: Create a user account for the app.
+      user: >
+        name={{ app_user }}
+        state=present
+        system={{ app_is_system_user }}
+
+  roles:
+    - geerlingguy.mysql
+
+  tasks:
+
+    - name: Install Java.
+      unarchive: >
+        src=../src/{{ java_tarball }}
+        dest=/home/{{ app_user }}
+        creates={{ java_path }}
+
+    # I tried adding user: and group: to the task above, and it did not work. :-(
+    - name: Fix directory permissions for java.
+      file: >
+        path={{ java_path }}
+        owner={{ app_user }}
+        group={{ app_user }}
+        state=directory
+        recurse=yes
+
+    - name: Install the application.
+      unarchive: >
+        src=../src/{{ app_tarball }}
+        dest=/home/{{ app_user }}
+        owner={{ app_user }}
+        group={{ app_user }}
+        creates={{ app_path }}
+
+    - name: Fix directory permissions for the application.
+      file: >
+        path=/home/{{ app_user }}/{{ app_expanded }}
+        owner={{ app_user }}
+        group={{ app_user }}
+        state=directory
+        recurse=yes
+
+    - name: Create a directory for the database connector.
+      file: >
+        path={{ db_connector_path }}
+        owner={{ app_user }}
+        group={{ app_user }}
+        state=directory
+        recurse=yes
+
+    - name: Install the database connector.
+      unarchive: >
+        src=../src/{{ db_connector_tarball }}
+        dest={{ db_connector_path }}
+        owner={{ app_user }}
+        group={{ app_user }}
+        creates={{ db_connector_path }}/{{ db_connector_expanded }}
+
+    - name: Create a link to the database connector .jar file.
+      file: >
+        src={{ db_connector_path }}/{{ db_connector_expanded }}/{{ db_connector_jar }}
+        dest={{ db_connector_path }}/{{ db_connector_jar }}
+        state=hard
+
+    - name: Check whether the service script already exists.
+      stat: path=/etc/init.d/teamcity get_md5=no
+      register: init_script
+
+    - name: Configure service to control the application.
+      template: >
+        src=templates/teamcity_service_script.sh.j2
+        dest=/etc/init.d/teamcity
+        owner=root
+        group=root
+        mode=0755
+      when: not init_script.stat.exists
+
+    - name: Start the application.
+      service: name=teamcity state=started

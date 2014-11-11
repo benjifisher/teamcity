@@ -1,0 +1,27 @@
+---
+# Basic server configuration.
+hostname: teamcity
+app_user: teamcity
+app_is_system_user: yes
+
+# There is no public download link for Java, since you have to accept Oracle's
+# terms and conditions. Download a copy to the host machine (use the src/
+# directory next to Vagrantfile).
+# java_tarball: server-jre-7u71-linux-x64.tar.gz
+java_tarball: server-jre-8u25-linux-x64.tar.gz
+# java_expanded: jdk1.7.0_71
+java_expanded: jdk1.8.0_25
+java_path: /home/{{ app_user }}/{{ java_expanded }}
+
+# We could download the application as part of the process, but we may as well
+# start with a tarball in the src/ directory.
+app_tarball: TeamCity-8.1.5.tar.gz
+app_expanded: TeamCity
+app_path: /home/{{ app_user }}/{{ app_expanded }}
+app_data_path: /home/{{ app_user }}/TeamCityData
+
+# Download a database connector.
+db_connector_expanded: mysql-connector-java-5.1.34
+db_connector_tarball: "{{ db_connector_expanded }}.tar.gz"
+db_connector_jar: "{{ db_connector_expanded }}-bin.jar
+db_connector_path: "{{ app_data_path }}/lib/jdbc"
