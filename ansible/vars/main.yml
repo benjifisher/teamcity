@@ -23,5 +23,26 @@ app_data_path: /home/{{ app_user }}/TeamCityData
 # Download a database connector.
 db_connector_expanded: mysql-connector-java-5.1.34
 db_connector_tarball: "{{ db_connector_expanded }}.tar.gz"
-db_connector_jar: "{{ db_connector_expanded }}-bin.jar
+db_connector_jar: "{{ db_connector_expanded }}-bin.jar"
 db_connector_path: "{{ app_data_path }}/lib/jdbc"
+
+# MySQL settings:  for documentation, and many other variables that can be
+# defind, see roles/geerlingguy.mysql/defaults/main.yml . See
+# https://confluence.jetbrains.com/display/TCD8/Setting+up+an+External+Database
+# and https://confluence.jetbrains.com/display/TCD8/How+To...#HowTo...-ConfigureNewlyInstalledMySQLServer
+
+mysql_innodb_buffer_pool_size: "2000M"
+
+# TODO:  Team City recommends a case-sensitive collation.
+mysql_databases:
+  - name: teamcity
+    collation: utf8_general_ci
+    encoding: utf8
+    replicate: 1
+
+# Users
+mysql_users:
+  - name: teamcity
+    host: 127.0.0.1
+    password: c9bf9cb4dacba68d456832568251fe31
+    priv: teamcity.*:ALL
