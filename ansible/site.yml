@@ -82,6 +82,14 @@
       stat: path={{ app_data_path }}/config/database.properties
       register: db_config
 
+    - name: Ensure that the configuration directory exists.
+      file: >
+        path={{ app_data_path }}/config
+        owner={{ app_user }}
+        group={{ app_user }}
+        state=directory
+        recurse=yes
+
     - name: Configure the application to use the MySQL database.
       template: >
         src=templates/database.properties.j2
