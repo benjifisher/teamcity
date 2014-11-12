@@ -105,12 +105,16 @@
 
     - name: Configure service to control the application.
       template: >
-        src=templates/teamcity_service_script.sh.j2
+        src=templates/service.sh.j2
         dest=/etc/init.d/teamcity
         owner=root
         group=root
         mode=0755
       when: not init_script.stat.exists
 
-    - name: Start the application.
-      service: name=teamcity state=started
+    - name: Ensure the application is started and enabled on boot.
+      service: name=teamcity state=started enabled=yes
+
+    # I do not know why the previous step did not work. :-(
+    - name: Manually start the service.
+      command: service teamcity start

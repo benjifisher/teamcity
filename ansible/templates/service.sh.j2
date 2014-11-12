@@ -1,0 +1,45 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          teamcity
+# Required-Start:    $local_fs $network $named $time $syslog
+# Required-Stop:     $local_fs $network $named $time $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description:       Control the Team City application.
+### END INIT INFO
+
+## {{ ansible_managed }}
+SCRIPT={{ app_path }}/bin/runAll.sh
+RUNAS={{ app_user }}
+
+# Set path to data.
+export TEAMCITY_DATA_PATH="{{ app_data_path }}"
+# export TEAMCITY_DATA_PATH="/home/teamcity/TeamCityData"
+# Set the java path. Kluge?
+export JAVA_HOME={{ java_path }}
+# export JAVA_HOME=/home/teamcity/jdk1.8.0_25
+
+start() {
+  local CMD="$SCRIPT start"
+  su -c "$CMD" $RUNAS
+}
+
+stop() {
+  local CMD="$SCRIPT stop"
+  su -c "$CMD" $RUNAS
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+esac
