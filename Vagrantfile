@@ -10,13 +10,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "centos70"
-  # config.vm.box = "chef/centos-6.5"
+  # config.vm.box = "centos70"
+  config.vm.box = "chef/centos-6.6"
   # config.vm.box = "ubuntu/trusty64"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "https://f0fff3908f081cb6461b407be80daf97f07ac418.googledrive.com/host/0BwtuV7VyVTSkUG1PM3pCeDJ4dVE/centos7.box"
+  # config.vm.box_url = "https://f0fff3908f081cb6461b407be80daf97f07ac418.googledrive.com/host/0BwtuV7VyVTSkUG1PM3pCeDJ4dVE/centos7.box"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
