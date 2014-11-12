@@ -1,0 +1,18 @@
+# Sample Ansible inventory file.
+# Reference: http://docs.ansible.com/intro_inventory.html
+# List here the servers that you would like to control with Ansible.
+# You do not need this for Vagrant. When you "vagrant up", it will
+# automatically create an inventory file under
+# .vagrant/provisioners/ansible/inventory/.
+
+[local]
+# localhost ansible_connection=local
+
+[dev]
+# 192.168.12.34
+
+[stage]
+# IP address or host name goes here.
+
+[production]
+# IP address or host name goes here.
