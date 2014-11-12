@@ -14,5 +14,4 @@ File | 	Tested version | Download URL | Other versions
 -----|-----------------|--------------|---------------
 Java (Server JRE) | server-jre-8u25-linux-x64.tar.gz | [Java SE Downloads](http://www.oracle.com/technetwork/java/javase/downloads/index.html) | [Oracle Java Archive](http://www.oracle.com/technetwork/java/javase/archive-139210.html#javase)
 Team City | TeamCity-8.1.5.tar.gz | [Download TeamCity](http://www.jetbrains.com/teamcity/download/) | [Previous Releases Downloads](http://confluence.jetbrains.com/display/TW/Previous+Releases+Downloads)
-Database Connector | mysql-connector-java-5.1.34.tar.gz | [Download Connector/J](http://dev.mysql.com/downloads/connector/j) | Same page, click on
-`Looking for previous GA versions?`
+Database Connector | mysql-connector-java-5.1.34.tar.gz | [Download Connector/J](http://dev.mysql.com/downloads/connector/j) | Same page, click on `Looking for previous GA versions?`
