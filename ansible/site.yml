@@ -5,10 +5,10 @@
   - vars/main.yml
 
   pre_tasks:
-    - name: Set the host name.
+    - name: Ensure that the host name is set.
       hostname: name={{ hostname }}
 
-    - name: Create a user account for the app.
+    - name: Ensure that there is a user to control the app.
       user: >
         name={{ app_user }}
         state=present
@@ -19,7 +19,7 @@
 
   tasks:
 
-    - name: Install Java.
+    - name: Ensure that Java is installed.
       unarchive: >
         src=../src/{{ java_tarball }}
         dest=/home/{{ app_user }}
@@ -34,7 +34,7 @@
         state=directory
         recurse=yes
 
-    - name: Install the application.
+    - name: Ensure that the application is installed.
       unarchive: >
         src=../src/{{ app_tarball }}
         dest=/home/{{ app_user }}
@@ -50,7 +50,7 @@
         state=directory
         recurse=yes
 
-    - name: Create a directory for the database connector.
+    - name: Ensure that the directory for the database connector exists.
       file: >
         path={{ db_connector_path }}
         owner={{ app_user }}
@@ -62,7 +62,7 @@
       stat: path={{ db_connector_path }}/{{ db_connector_jar }} get_md5=no
       register: jar_link
 
-    - name: Install the database connector.
+    - name: Ensure that the database connector is available.
       unarchive: >
         src=../src/{{ db_connector_tarball }}
         dest={{ db_connector_path }}
@@ -71,7 +71,7 @@
         creates={{ db_connector_path }}/{{ db_connector_expanded }}
       when: not jar_link.stat.exists
 
-    - name: Create a link to the database connector .jar file.
+    - name: Ensure that there is a link to the database connector .jar file.
       file: >
         src={{ db_connector_path }}/{{ db_connector_expanded }}/{{ db_connector_jar }}
         dest={{ db_connector_path }}/{{ db_connector_jar }}
@@ -90,7 +90,7 @@
         state=directory
         recurse=yes
 
-    - name: Configure the application to use the MySQL database.
+    - name: Ensure that the application is configured to use the MySQL database.
       template: >
         src=templates/database.properties.j2
         dest={{ app_data_path }}/config/database.properties
@@ -103,7 +103,7 @@
       stat: path=/etc/init.d/teamcity get_md5=no
       register: init_script
 
-    - name: Configure service to control the application.
+    - name: Ensure that service is configured to control the application.
       template: >
         src=templates/service.sh.j2
         dest=/etc/init.d/teamcity
