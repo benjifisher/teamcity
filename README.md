@@ -54,7 +54,7 @@ Complete the following steps:
 
 ### 1. Download sources
 
-Download source tarballs for Java RE, TeamCity, and the database connector to the [src/](./src) directory.  See the README there for details.
+Download source tarballs for Java RE, TeamCity, and the database connector to the `src/` directory.  See the README there for details.
 
 ### 2. Configuration
 
@@ -71,14 +71,14 @@ For a local VM, `$ vagrant up`
 For an external server,
 
 ```
-`$ ansible-playbook -i ansible/hosts -l <server> ansible/site.yml`
+$ ansible-playbook -i ansible/hosts -l <server> ansible/site.yml
 ```
 
 This will configure all hosts that you have added to the inventory file.  Here `<server>` can be any server or group defined in your inventory file, such as `localhost` or `stage`.  By default (without the `-l` option) the configuration will be run on all servers you have defined there.
 
 ### 4. Manual installation steps
 
-Once the application is running, there are some manual steps to create the required configuration. We may choose to automate this at some point, but the remarks in [src/README.md](./src) are relevant, so we may never do so.
+Once the application is running, there are some manual steps to create the required configuration. We may choose to automate this at some point, but the remarks in `src/README.md` are relevant, so we may never do so.
 
 1. Open a web browser on http://www.example.com:8111.  If you are using a local VM, then the Vagrantfile specifies that Port 8111 on `localhost` will be forwarded to the same port on the VM, so you can use http://localhost:8111 just as well.  If the provisioning went well (You paid attention to the status messages, didn't you?) you should get a welcome screen:  ![welcome screen](./images/teamcity-first-start.png)
 
