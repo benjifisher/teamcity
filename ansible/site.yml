@@ -78,27 +78,6 @@
         state=hard
       when: not jar_link.stat.exists
 
-    - name: Check whether the database config already exists.
-      stat: path={{ app_data_path }}/config/database.properties
-      register: db_config
-
-    - name: Ensure that the configuration directory exists.
-      file: >
-        path={{ app_data_path }}/config
-        owner={{ app_user }}
-        group={{ app_user }}
-        state=directory
-        recurse=yes
-
-    - name: Ensure that the application is configured to use the MySQL database.
-      template: >
-        src=templates/database.properties.j2
-        dest={{ app_data_path }}/config/database.properties
-        owner={{ app_user }}
-        group={{ app_user }}
-        mode=0644
-      when: not db_config.stat.exists
-
     - name: Check whether the service script already exists.
       stat: path=/etc/init.d/teamcity get_md5=no
       register: init_script
